@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
+import { revalidatePath } from "next/cache";
 
 export async function middleware(request: NextRequest) {
     const url = new URL(request.url);
@@ -9,7 +10,6 @@ export async function middleware(request: NextRequest) {
     requestHeaders.set("x-url", request.url);
     requestHeaders.set("x-origin", origin);
     requestHeaders.set("x-pathname", pathname);
-    console.log({ origin, pathname });
     return await updateSession(request).then(() =>
         NextResponse.next({ request: { headers: requestHeaders } })
     );

@@ -10,6 +10,10 @@
 ### Commit 2: Used the Shadcn components to create login and sign up forms. The forms are also changed based on the route in the auth group layout.tsx automatically.
 ### Commit 3: Fixed README
 
+## 12/13/24:
+
+### Commit 1: Made the auth seamless for the email and password sign up, sign in, and sign out. Now I can work on the main page and I will add google auth later.
+
 ## To-Do List:
 ❌ Protect specific pages with auth logic\
 ❌ Style the layout for the main page\
@@ -17,7 +21,8 @@
 ❌ Style the Navbar for better UX\
 ❌ Make uploading videos possible\
 ❌ Send the videos to supabase and fetch them\
+✅ Improve the authentication experience for users\
 ✅ Implement Shadcn Button and Input components\
 ✅ Detect logged-in state in Navbar\
-✅ Add redirect logic to profile and auth pages\
+✅ Add redirect logic to profile and auth pages
 

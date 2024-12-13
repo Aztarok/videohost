@@ -1,14 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import { signout } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { useState } from "react";
 
 export default function Navbar({ signedIn }: { signedIn: string }) {
     // Mock authentication state (replace with real authentication logic)
     const [isLoggedIn, setIsLoggedIn] = useState(signedIn !== "");
 
+    const handleSignOut = async () => {
+        signout();
+        setIsLoggedIn(false);
+    };
     return (
         <nav className="flex items-center justify-between px-4 py-2 bg-gray-800 text-white shadow-md rounded-xl">
             {/* Left: Logo/Home Button */}
@@ -40,7 +45,7 @@ export default function Navbar({ signedIn }: { signedIn: string }) {
                         <Button
                             variant="outline"
                             className="text-white border-gray-600"
-                            onClick={() => setIsLoggedIn(false)}
+                            onClick={handleSignOut}
                         >
                             Sign Out
                         </Button>
