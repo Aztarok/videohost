@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import VideoShower from "@/components/VideoShower";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -27,7 +28,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased h-full min-h-screen`}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
             >
                 <ThemeProvider
                     attribute="class"
@@ -35,7 +36,7 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    {children}
+                    <VideoShower />
                 </ThemeProvider>
             </body>
         </html>
