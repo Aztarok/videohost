@@ -16,6 +16,7 @@ export default async function Home() {
                     <Navbar signedIn={data.user?.email || ""} />
                 </div>
                 <div>Hello {data.user ? data.user.email : null}</div>
+                <div>Goodbye {data.user ? data.user.email : null}</div>
             </div>
         </div>
     );
