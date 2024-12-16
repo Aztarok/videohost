@@ -36,7 +36,7 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <VideoShower />
+                    {children}
                 </ThemeProvider>
             </body>
         </html>

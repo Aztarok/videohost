@@ -14,28 +14,23 @@ import { VideoFilters } from "./VideoFilters";
 import { VideoCard } from "./ui/video-card";
 import Link from "next/link";
 
-// Mock data for videos
-const videos = Array(25)
-    .fill(null)
-    .map((_, i) => ({
-        id: i + 1,
-        title: `Amazing Video ${i + 1}`,
-        thumbnail: `https://loremflickr.com/320/240/`, // Ensure unique thumbnail URLs
-        views: `${(i + 1) * 100}K`, // Generate views based on a predictable formula
-        duration: `${Math.floor((i % 10) + 1)}:${((i + 15) % 60)
-            .toString()
-            .padStart(2, "0")}`, // Unique but consistent durations
-        creator: `Creator ${i + 1}`
-    }));
+type Video = {
+    id: number;
+    title: string;
+    thumbnail: string;
+    views: string;
+    duration: string;
+    creator: string;
+};
 
-export default function VideoShower() {
+export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
     return (
         <div className="bg-background">
             <VideoNavbar />
             <main className="container mx-auto">
                 <VideoFilters />
                 <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    {videos.map((video) => (
+                    {videoArray.map((video) => (
                         <Link href={`/video/${video.id}`} key={video.id}>
                             <VideoCard
                                 title={video.title}
