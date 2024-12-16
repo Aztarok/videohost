@@ -14,6 +14,10 @@
 
 ### Commit 1: Made the auth seamless for the email and password sign up, sign in, and sign out. Now I can work on the main page and I will add google auth later.
 
+## 12/16/24:
+
+### Commit 1: Reformatted the layout and now it looks clean. Just have to add features to the buttons.
+
 ## To-Do List:
 ❌ Protect specific pages with auth logic\
 ❌ Style the layout for the main page\
