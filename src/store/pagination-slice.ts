@@ -1,4 +1,6 @@
+import { videos } from "@/testing/constants";
 import { Store } from "@/types/store";
+import { Video } from "@/types/video";
 import { StateCreator } from 'zustand';
 
 export type PaginationState = {
@@ -6,7 +8,7 @@ export type PaginationState = {
     itemsPerPage: number;
     indexOfLastItem: number;
     indexOfFirstItem: number;
-    currentItem: number;
+    currentItem: Video[];
 };
 
 export type PaginationActions = {
@@ -21,12 +23,14 @@ export type PaginationActions = {
 
 export type paginationSlice = PaginationState & PaginationActions;
 
+const initialNumber = 15
+
 const initialState: PaginationState = {
     currentPage: 1,
-    itemsPerPage: 2,
+    itemsPerPage: initialNumber,
     indexOfLastItem: 2,
     indexOfFirstItem: 1,
-    currentItem: 1
+    currentItem: videos.slice(0, initialNumber),
 };
 
 export const createPaginationSlice: StateCreator<
@@ -39,7 +43,7 @@ export const createPaginationSlice: StateCreator<
             state.currentPage = page;
             state.indexOfLastItem = page * state.itemsPerPage;
             state.indexOfFirstItem = state.indexOfLastItem - state.itemsPerPage;
-            state.currentItem = state.indexOfLastItem;
+            state.currentItem = videos.slice(state.indexOfFirstItem, state.indexOfLastItem);
         }),
         calculateIndices: () =>
             set((state) => {

@@ -15,9 +15,9 @@ export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
     useEffect(() => {
         store.setVideos(videoArray)
     }, [videoArray, store.Videos, store.setVideos])
-    const currentVideo = store.Videos.find((video) => video.id === store.currentItem);
+    // const currentVideo = store.Videos.find((video) => video.id === store.currentItem);
     return (
-        <div className="bg-background">
+        <>
             <VideoNavbar />
             <main className="container mx-auto">
                 <VideoFilters />
@@ -27,11 +27,11 @@ export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
                     totalItems={store.Videos.length}
                     itemsPerPage={store.itemsPerPage}
                 />
-                {store.currentItem}
+                {/* {JSON.stringify(store.currentItem)}
                 {store.indexOfFirstItem}
-                {store.indexOfLastItem}
+                {store.indexOfLastItem} */}
                 <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    {currentVideo ? (
+                    {/* {currentVideo ? (
                         <Link href={`/video/${currentVideo.id}`} key={currentVideo.id}>
                             <VideoCard
                                 title={currentVideo.title}
@@ -43,7 +43,18 @@ export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
                         </Link>
                     ) : (
                         <p>No video found for the current item.</p>
-                    )}
+                    )} */}
+                    {store.currentItem.map((video) => (
+                        <Link href={`/video/${video.id}`} key={video.id}>
+                            <VideoCard
+                                title={video.title}
+                                thumbnail={video.thumbnailUrl}
+                                views={video.views}
+                                duration={video.duration}
+                                artists={video.artists[0]}
+                            />
+                        </Link>
+                    ))}
                 </div>
                 <div className="py-8">
                     <ChangePages
@@ -54,7 +65,7 @@ export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
                     />
                 </div>
             </main>
-        </div>
+        </>
     );
 
     // return (
