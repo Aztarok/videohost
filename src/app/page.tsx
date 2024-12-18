@@ -28,7 +28,7 @@ export default async function Home() {
     const { data, error } = await supabase.auth.getUser();
 
     return (
-        <div className="h-full pb-20 font-[family-name:var(--font-geist-sans)]">
+        <div className="h-full w-full font-[family-name:var(--font-geist-sans)]">
             <div className="flex flex-col w-full">
                 <div className="w-full">
                     {/* {!data.user && <Link href={"/sign-up"}>Sign Up</Link>}
