@@ -9,40 +9,47 @@ import {
     PaginationNext,
     PaginationPrevious
 } from "@/components/ui/pagination";
-import { VideoNavbar } from "./VideoNavbar";
-import { VideoFilters } from "./VideoFilters";
-import { VideoCard } from "./ui/video-card";
+import { useStore } from "@/store/store";
+import { Video } from "@/types/video";
 import Link from "next/link";
+import { useEffect } from "react";
+import ChangePages from "./ChangePages";
+import { VideoFilters } from "./VideoFilters";
+import { VideoNavbar } from "./VideoNavbar";
+import { VideoCard } from "./ui/video-card";
 
-type Video = {
-    id: number;
-    title: string;
-    thumbnail: string;
-    views: string;
-    duration: string;
-    creator: string;
-};
 
 export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
+    const store = useStore()
+    useEffect(() => {
+        store.setVideos(videoArray)
+    }, [videoArray, store.Videos, store.setVideos])
     return (
         <div className="bg-background">
             <VideoNavbar />
             <main className="container mx-auto">
                 <VideoFilters />
                 <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    {videoArray.map((video) => (
+                    {store.Videos.map((video) => (
                         <Link href={`/video/${video.id}`} key={video.id}>
                             <VideoCard
                                 title={video.title}
-                                thumbnail={video.thumbnail}
+                                thumbnail={video.thumbnailUrl}
                                 views={video.views}
                                 duration={video.duration}
-                                creator={video.creator}
+                                artists={video.artists[0]}
                             />
                         </Link>
                     ))}
                 </div>
+                {store.currentPage}
                 <div className="py-8">
+                    <ChangePages
+                        currentPage={store.currentPage}
+                        setCurrentPage={store.setCurrentPage}
+                        totalItems={store.Videos.length}
+                        itemsPerPage={store.itemsPerPage}
+                    />
                     <Pagination>
                         <PaginationContent>
                             <PaginationItem>
@@ -68,6 +75,7 @@ export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
                         </PaginationContent>
                     </Pagination>
                 </div>
+                {/* <ChangePages /> */}
             </main>
         </div>
     );

@@ -18,6 +18,10 @@
 
 ### Commit 1: Reformatted the layout and now it looks clean. Just have to add features to the buttons.
 
+## 12/17/24:
+
+### Commit 1: Added Zustand and Immer global state context for videos. Added custom types and working on pagination.
+
 ## To-Do List:
 ❌ Protect specific pages with auth logic\
 ❌ Style the layout for the main page\
