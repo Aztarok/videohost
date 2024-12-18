@@ -21,6 +21,7 @@
 ## 12/17/24:
 
 ### Commit 1: Added Zustand and Immer global state context for videos. Added custom types and working on pagination.
+### Commit 1: Added pagination that works property and looks nice.
 
 ## To-Do List:
 ❌ Protect specific pages with auth logic\
@@ -29,6 +30,7 @@
 ❌ Style the Navbar for better UX\
 ❌ Make uploading videos possible\
 ❌ Send the videos to supabase and fetch them\
+✅ Add Pagination\
 ✅ Improve the authentication experience for users\
 ✅ Implement Shadcn Button and Input components\
 ✅ Detect logged-in state in Navbar\

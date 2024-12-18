@@ -23,10 +23,10 @@ export type paginationSlice = PaginationState & PaginationActions;
 
 const initialState: PaginationState = {
     currentPage: 1,
-    itemsPerPage: 1,
-    indexOfLastItem: 0,
-    indexOfFirstItem: 0,
-    currentItem: 0
+    itemsPerPage: 2,
+    indexOfLastItem: 2,
+    indexOfFirstItem: 1,
+    currentItem: 1
 };
 
 export const createPaginationSlice: StateCreator<
@@ -39,6 +39,7 @@ export const createPaginationSlice: StateCreator<
             state.currentPage = page;
             state.indexOfLastItem = page * state.itemsPerPage;
             state.indexOfFirstItem = state.indexOfLastItem - state.itemsPerPage;
+            state.currentItem = state.indexOfLastItem;
         }),
         calculateIndices: () =>
             set((state) => {
