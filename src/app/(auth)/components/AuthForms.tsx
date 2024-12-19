@@ -1,14 +1,12 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import { useState } from "react";
 import { checkPath, login, signup } from "../actions";
 
 export function SignInForm() {
-    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -24,7 +22,7 @@ export function SignInForm() {
         const formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
-        await signup(formData);
+        await signup();
     };
 
     return (
@@ -82,7 +80,6 @@ export function SignInForm() {
 }
 
 export function SignUpForm() {
-    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -97,7 +94,7 @@ export function SignUpForm() {
         formData.append("email", email);
         formData.append("password", password);
 
-        await signup(formData);
+        await signup();
     };
 
     return (

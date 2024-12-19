@@ -22,101 +22,69 @@ import { Session } from "@/types/session";
 import { createClient } from "@/utils/supabase/client";
 import { Play, Search, SlidersHorizontal, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export function VideoNavbar({ session }: { session: Session }) {
+    const router = useRouter()
     const { user, setUser } = useStore()
     const [isHydrated, setIsHydrated] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(session.session !== null);
+    const [isLoggedIn, setIsLoggedIn] = useState(session !== null);
+
     useEffect(() => {
-        const unsubHydrate = useStore.persist.onHydrate?.(() =>
-            setIsHydrated(true)
-        );
-        return () => unsubHydrate?.(); // Cleanup on unmount
+        const checkHydration = async () => {
+            if (useStore.persist.hasHydrated()) {
+                setIsHydrated(true);
+            } else {
+                const unsubHydrate = useStore.persist.onHydrate(() => {
+                    setIsHydrated(true);
+                })
+                return () => unsubHydrate();
+            }
+        }
+        checkHydration()
     }, []);
 
     useEffect(() => {
-        // Step 1: Check if there's a user in localStorage or Zustand store
-        const storedUser = localStorage.getItem("user"); // Assuming the user is stored in localStorage
+        const fetchUser = async () => {
+            if (!isHydrated || user || !isLoggedIn) {
+                console.log("Fetching user from Zustand...")
+                return
+            };
 
-        if (storedUser || user) {
-            // If user exists, do not call getUser
-            console.log("User found in localStorage or Zustand:", storedUser || user);
-            return;
-        }
-        console.log(1)
-        // Step 2: Wait until Zustand is hydrated
-        if (isHydrated) return;
-
-        console.log("No user found, fetching user from Supabase...");
-        if (session.session !== null) {
-            const supabase = createClient();
-
-            console.log(2)
-
-            const getUser = async () => {
-                const { data, error } = await supabase.auth.getUser();
-                const { data: profileData } = await supabase
-                    .from("profiles")
-                    .select("*")
-                    .eq("id", data?.user?.id)
-                    .single();
-
+            console.log("Fetching user from Supabase...")
+            const supabase = createClient()
+            try {
+                const { data } = await supabase.auth.getUser()
+                const { data: profileData } = await supabase.from("profiles").select("*").eq("id", data.user?.id).single()
                 if (profileData) {
-                    const transformedUser = {
+                    const transformeduser = {
                         id: profileData.id,
                         createdAt: new Date(profileData.created_at),
                         userName: profileData.user_name,
                         email: profileData.email,
                         imageUrl: profileData.image_url,
-                        isActive: profileData.is_active,
-                    };
+                        isActive: profileData.is_active
+                    }
 
-                    // Step 3: Store the user in Zustand and localStorage
-                    setUser(transformedUser);
-                    localStorage.setItem("user", JSON.stringify(transformedUser));
+                    setUser(transformeduser)
                 }
-            };
-
-            getUser();
+            } catch (error) {
+                console.error("Error fetching user from Supabase: ", error)
+            }
         }
-    }, [isHydrated, user, setUser]);
 
+        fetchUser()
+    }, [isHydrated, user, setUser, isLoggedIn]);
 
-    // useEffect(() => {
-    //     const supabase = createClient()
-    //     const [isHydrated, setIsHydrated] = useState(false)
-
-    //     const getUser = async () => {
-    //         const { data, error } = await supabase.auth.getUser()
-    //         const { data: profileData } = await supabase.from("profiles").select("*").eq("id", data?.user?.id).single()
-    //         if (data) {
-    //             console.log(data)
-    //             console.log(user)
-    //             console.log(error)
-    //             const transformedUser = {
-    //                 id: profileData.id,
-    //                 createdAt: new Date(profileData.created_at),
-    //                 userName: profileData.user_name,
-    //                 email: profileData.email,
-    //                 imageUrl: profileData.image_url,
-    //                 isActive: profileData.is_active,
-    //             };
-    //             setUser(
-    //                 transformedUser
-    //             )
-    //         }
-    //     }
-    //     getUser()
-    //     console.log("Zustand User: ", user)
-    // }, [setUser])
     const handleSignOut = () => {
         setUser(null)
+        setIsLoggedIn(false)
         signout()
-        localStorage.removeItem("user")
-        localStorage.removeItem("zustand-store")
+        useStore.persist.clearStorage()
+        router.refresh()
     }
-    console.log("Zustand User: ", user)
+
     return (
         <div className="border-b w-full">
             <div className="flex h-16 items-center px-4">
@@ -210,14 +178,18 @@ export function VideoNavbar({ session }: { session: Session }) {
                                     <>
                                         <DropdownMenuItem>Profile</DropdownMenuItem>
                                         <DropdownMenuItem>Settings</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={handleSignOut} className="hover:cursor-pointer" asChild>
+                                            <span>
+                                                Sign out
+                                            </span>
+                                        </DropdownMenuItem>
                                     </>
                                 ) : (
                                     <>
-                                        <DropdownMenuItem className="hover:cursor-pointer">
+                                        <DropdownMenuItem className="hover:cursor-pointer" asChild>
                                             <Link href="/sign-in">Sign In</Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem className="hover:cursor-pointer">
+                                        <DropdownMenuItem className="hover:cursor-pointer" asChild>
                                             <Link href="/sign-up">Sign Up</Link>
                                         </DropdownMenuItem>
                                     </>

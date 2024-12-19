@@ -24,8 +24,8 @@ const videoArray: Video[] = videos;
 export default async function Home() {
     const supabase = await createClient();
 
-    const { data, error } = await supabase.auth.getUser();
-    const { data: dataSession, error: sessionError } = await supabase.auth.getSession();
+    // const { data, error } = await supabase.auth.getUser();
+    const { data: dataSession } = await supabase.auth.getSession();
     return (
         <div className="h-full w-full font-[family-name:var(--font-geist-sans)]">
             <div className="flex flex-col w-full">
@@ -35,7 +35,7 @@ export default async function Home() {
                     {data.user && <SignOutButton />} */}
                     {/* <Navbar signedIn={data.user?.email || ""} /> */}
                 </div>
-                <VideoShower videoArray={videoArray} session={dataSession} />
+                <VideoShower videoArray={videoArray} sessionData={{ session: dataSession.session?.user.email }} />
             </div>
         </div>
     );

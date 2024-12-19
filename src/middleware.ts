@@ -1,6 +1,5 @@
-import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
-import { revalidatePath } from "next/cache";
+import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
     const url = new URL(request.url);
