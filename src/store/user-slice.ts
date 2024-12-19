@@ -1,18 +1,19 @@
 import { Store } from "@/types/store";
+import { User } from "@/types/user";
 import { StateCreator } from "zustand";
 
 export type UserState = {
-    id: number;
-    userName: string;
-    fullName: string;
-    email: string;
+    user: User | null;
 };
 
 export type UserActions = {
+    setUser: (user: User | null) => void;
     setUserName: (userName: string) => void;
 };
 
 export type userSlice = UserState & UserActions;
+
+
 
 export const createUserSlice: StateCreator<
     Store,
@@ -20,12 +21,12 @@ export const createUserSlice: StateCreator<
     [],
     userSlice
 > = (set) => ({
-    id: 0,
-    userName: "",
-    fullName: "",
-    email: "",
-    setUserName: (userName: string) =>
-        set((state) => {
-            state.userName = userName;
-        })
+    user: null,
+    setUser: (user: User | null) => set({ user }),
+    setUserName: (userName: string) => set((state) => {
+        if (state.user) {
+            state.user.userName = userName;
+        }
+    }),
 });
+

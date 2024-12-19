@@ -10,7 +10,7 @@ import {
 
 export function VideoFilters() {
     return (
-        <div className="flex gap-4 p-4">
+        <div className="flex gap-4 py-4">
             <Select defaultValue="all">
                 <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Category" />

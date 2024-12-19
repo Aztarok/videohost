@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
 import { createUserSlice } from "@/store/user-slice";
@@ -7,9 +8,15 @@ import { createPaginationSlice } from "./pagination-slice";
 import { createVideoSlice } from "./video-slice";
 
 export const useStore = create<Store>()(
-    immer((...a) => ({
+    persist(immer((...a) => ({
         ...createUserSlice(...a),
         ...createVideoSlice(...a),
         ...createPaginationSlice(...a),
-    }))
+    })),
+        {
+            name: "zustand-store",
+            storage: createJSONStorage(() => localStorage),
+            partialize: (state) => ({ user: state.user }),
+        }
+    )
 )
