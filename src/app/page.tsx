@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import VideoShower from "@/components/VideoShower";
 import { videos } from "@/testing/constants";
 import { Video } from "@/types/video";
@@ -26,7 +25,7 @@ export default async function Home() {
     const supabase = await createClient();
 
     const { data, error } = await supabase.auth.getUser();
-
+    const { data: dataSession, error: sessionError } = await supabase.auth.getSession();
     return (
         <div className="h-full w-full font-[family-name:var(--font-geist-sans)]">
             <div className="flex flex-col w-full">
@@ -34,9 +33,9 @@ export default async function Home() {
                     {/* {!data.user && <Link href={"/sign-up"}>Sign Up</Link>}
                     {!data.user && <Link href={"/sign-in"}>Sign In</Link>}
                     {data.user && <SignOutButton />} */}
-                    <Navbar signedIn={data.user?.email || ""} />
+                    {/* <Navbar signedIn={data.user?.email || ""} /> */}
                 </div>
-                <VideoShower videoArray={videoArray} />
+                <VideoShower videoArray={videoArray} session={dataSession} />
             </div>
         </div>
     );

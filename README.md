@@ -24,13 +24,22 @@
 ### Commit 2: Added pagination that works property and looks nice.
 ### Commit 3: FIXED Display Issue and README.
 
+## 12/18/24:
+
+### Commit 1: Fixed x overflow on layout.tsx. The problem was because I had w-full on a server component layout I think. It fixed the problem of the layout shifting when clicking dialog boxes and even when adding more videos to the page.
+### Commit 2: Spruced up Zustand with Immer and Persist middlewares. Now the app can tell when to fetch a user's data and when to chill out. Styled the navbar for better UX. Made better types for videos and users. Main layout has been styled. Supabase trigger functions when user signs up. Supabase profiles table.
+
 ## To-Do List:
 ❌ Protect specific pages with auth logic\
-❌ Style the layout for the main page\
 ❌ Create profile and settings pages\
-❌ Style the Navbar for better UX\
 ❌ Make uploading videos possible\
 ❌ Send the videos to supabase and fetch them\
+✅ Create Supabase trigger function to detect when a user signs up\
+✅ Create Supabase table for user data\
+✅ Style the layout for the main page\
+✅ Style the Navbar for better UX\
+✅ Make better types for videos and users\
+✅ Add Zustand store with immer and persistance\
 ✅ Add Pagination\
 ✅ Display Videos Nicely\
 ✅ Improve the authentication experience for users\

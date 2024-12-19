@@ -8,7 +8,7 @@ export type PaginationState = {
     itemsPerPage: number;
     indexOfLastItem: number;
     indexOfFirstItem: number;
-    currentItem: Video[];
+    currentItem: Video[] | undefined;
 };
 
 export type PaginationActions = {
@@ -23,7 +23,7 @@ export type PaginationActions = {
 
 export type paginationSlice = PaginationState & PaginationActions;
 
-const initialNumber = 15
+const initialNumber = 20
 
 const initialState: PaginationState = {
     currentPage: 1,
