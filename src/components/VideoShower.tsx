@@ -1,7 +1,6 @@
 "use client";
 
 import { useStore } from "@/store/store";
-import { Session } from "@/types/session";
 import { Video } from "@/types/video";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -12,7 +11,7 @@ import { VideoNavbar } from "./VideoNavbar";
 import { VideoCard } from "./ui/video-card";
 
 
-export default function VideoShower({ videoArray, sessionData }: { videoArray: Video[], sessionData: Session }) {
+export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
     const { Videos, setVideos, currentPage, setCurrentPage, itemsPerPage, currentItem } = useStore(useShallow((state) => ({
         Videos: state.Videos,
         setVideos: state.setVideos,
@@ -26,9 +25,10 @@ export default function VideoShower({ videoArray, sessionData }: { videoArray: V
         setVideos(videoArray)
     }, [videoArray, Videos, setVideos])
     // const currentVideo = store.Videos.find((video) => video.id === store.currentItem);
+
     return (
         <>
-            <VideoNavbar session={sessionData} />
+            <VideoNavbar />
             <main className="container mx-auto">
                 <VideoFilters />
                 <ChangePages

@@ -18,56 +18,64 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { useStore } from "@/store/store";
-import { Session } from "@/types/session";
 import { createClient } from "@/utils/supabase/client";
 import { Play, Search, SlidersHorizontal, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 
-export function VideoNavbar({ session }: { session: Session }) {
+export function VideoNavbar() {
     const router = useRouter()
-    const { user, setUser } = useStore()
+    const { user, setUser } = useStore(useShallow((state) => ({ user: state.user, setUser: state.setUser })))
     const [isHydrated, setIsHydrated] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(session !== null);
+    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(user));
+    const [logoutInProgress, setLogoutInProgress] = useState(false);
+
 
     useEffect(() => {
-        const checkHydration = async () => {
-            if (useStore.persist.hasHydrated()) {
-                setIsHydrated(true);
-            } else {
-                const unsubHydrate = useStore.persist.onHydrate(() => {
-                    setIsHydrated(true);
-                })
-                return () => unsubHydrate();
-            }
-        }
-        checkHydration()
+        const unsubHydrage = useStore.persist.onHydrate(() => setIsHydrated(true))
+        if (useStore.persist.hasHydrated()) setIsHydrated(true);
+        return () => unsubHydrage();
     }, []);
 
     useEffect(() => {
         const fetchUser = async () => {
-            if (!isHydrated || user || !isLoggedIn) {
+            if (!isHydrated || user || isLoggedIn || logoutInProgress) {
                 console.log("Fetching user from Zustand...")
+                console.log("User: ", user)
+                console.log("Logged In: ", isLoggedIn)
+                console.log("Is Hydrated: ", isHydrated)
+                if (user) {
+                    setIsLoggedIn(true)
+                }
                 return
             };
 
             console.log("Fetching user from Supabase...")
-            const supabase = createClient()
+            console.log("Signed In: ", isLoggedIn)
+            console.log("Fetching user from Supabase...")
             try {
-                const { data } = await supabase.auth.getUser()
-                const { data: profileData } = await supabase.from("profiles").select("*").eq("id", data.user?.id).single()
-                if (profileData) {
-                    const transformeduser = {
-                        id: profileData.id,
-                        createdAt: new Date(profileData.created_at),
-                        userName: profileData.user_name,
-                        email: profileData.email,
-                        imageUrl: profileData.image_url,
-                        isActive: profileData.is_active
+                const supabase = createClient()
+                const { data: session } = await supabase.auth.getSession()
+                if (!session.session) {
+                    setUser(null);
+                    setIsLoggedIn(false);
+                } else {
+                    const { data } = await supabase.auth.getUser()
+                    const { data: profileData } = await supabase.from("profiles").select("*").eq("id", data.user?.id).single()
+                    if (profileData) {
+                        const transformeduser = {
+                            id: profileData.id,
+                            createdAt: new Date(profileData.created_at),
+                            userName: profileData.user_name,
+                            email: profileData.email,
+                            imageUrl: profileData.image_url,
+                            isActive: profileData.is_active
+                        }
+                        setUser(transformeduser)
+                        setIsLoggedIn(true)
                     }
-
-                    setUser(transformeduser)
                 }
             } catch (error) {
                 console.error("Error fetching user from Supabase: ", error)
@@ -75,15 +83,17 @@ export function VideoNavbar({ session }: { session: Session }) {
         }
 
         fetchUser()
-    }, [isHydrated, user, setUser, isLoggedIn]);
+    }, [isHydrated, user, isLoggedIn, logoutInProgress]);
 
-    const handleSignOut = () => {
-        setUser(null)
-        setIsLoggedIn(false)
-        signout()
-        useStore.persist.clearStorage()
-        router.refresh()
-    }
+    const handleSignOut = async () => {
+        setLogoutInProgress(true); // Prevent fetchUser from running
+        setUser(null);
+        setIsLoggedIn(false);
+        await useStore.persist.clearStorage();
+        await signout();
+        setLogoutInProgress(false); // Reset after sign-out
+        router.refresh();
+    };
 
     return (
         <div className="border-b w-full">
@@ -178,8 +188,9 @@ export function VideoNavbar({ session }: { session: Session }) {
                                     <>
                                         <DropdownMenuItem>Profile</DropdownMenuItem>
                                         <DropdownMenuItem>Settings</DropdownMenuItem>
+                                        <DropdownMenuItem>{JSON.stringify(user)}</DropdownMenuItem>
                                         <DropdownMenuItem onClick={handleSignOut} className="hover:cursor-pointer" asChild>
-                                            <span>
+                                            <span className="">
                                                 Sign out
                                             </span>
                                         </DropdownMenuItem>
