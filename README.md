@@ -28,7 +28,11 @@
 
 ### Commit 1: Fixed x overflow on layout.tsx. The problem was because I had w-full on a server component layout I think. It fixed the problem of the layout shifting when clicking dialog boxes and even when adding more videos to the page.
 ### Commit 2: Spruced up Zustand with Immer and Persist middlewares. Now the app can tell when to fetch a user's data and when to chill out. Styled the navbar for better UX. Made better types for videos and users. Main layout has been styled. Supabase trigger functions when user signs up. Supabase profiles table.
-### Commit 2: Cleaned up hydration for Supabase and Zustand fetchs. Removed a useless localStorage variable. Fixed passing session down and the Session type. Can sign up and sign in cleanly. I just have to update the sign up and sign in forms to accept user input again because I am using dummy data. 
+### Commit 3: Cleaned up hydration for Supabase and Zustand fetchs. Removed a useless localStorage variable. Fixed passing session down and the Session type. Can sign up and sign in cleanly. I just have to update the sign up and sign in forms to accept user input again because I am using dummy data. 
+
+## 12/19/24:
+
+### Commit 1: Auth is now correctly fetched based on if the user is logged in or not. Auth is also stored in Zustand forever, after an initial Supabase fetch when a user signs in.
 
 ## To-Do List:
 ❌ Protect specific pages with auth logic\

@@ -1,7 +1,6 @@
 import VideoShower from "@/components/VideoShower";
 import { videos } from "@/testing/constants";
 import { Video } from "@/types/video";
-import { createClient } from "@/utils/supabase/server";
 
 // Mock data for videos
 // const videos = Array(25)
@@ -22,10 +21,6 @@ import { createClient } from "@/utils/supabase/server";
 const videoArray: Video[] = videos;
 
 export default async function Home() {
-    const supabase = await createClient();
-
-    // const { data, error } = await supabase.auth.getUser();
-    const { data: dataSession } = await supabase.auth.getSession();
     return (
         <div className="h-full w-full font-[family-name:var(--font-geist-sans)]">
             <div className="flex flex-col w-full">
@@ -35,7 +30,7 @@ export default async function Home() {
                     {data.user && <SignOutButton />} */}
                     {/* <Navbar signedIn={data.user?.email || ""} /> */}
                 </div>
-                <VideoShower videoArray={videoArray} sessionData={{ session: dataSession.session?.user.email }} />
+                <VideoShower videoArray={videoArray} />
             </div>
         </div>
     );
