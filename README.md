@@ -34,6 +34,10 @@
 
 ### Commit 1: Auth is now correctly fetched based on if the user is logged in or not. Auth is also stored in Zustand forever, after an initial Supabase fetch when a user signs in.
 
+## 12/20/24:
+
+### Commit 1: Starting work on the video uploading and fetching. The first thing that is finished is the video page layout.
+
 ## To-Do List:
 ❌ Protect specific pages with auth logic\
 ❌ Create profile and settings pages\

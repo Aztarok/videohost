@@ -6,8 +6,8 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 import ChangePages from "./ChangePages";
-import { VideoFilters } from "./VideoFilters";
-import { VideoNavbar } from "./VideoNavbar";
+import { VideoFilters } from "./Navbar/VideoFilters";
+import { VideoNavbar } from "./Navbar/VideoNavbar";
 import { VideoCard } from "./ui/video-card";
 
 
