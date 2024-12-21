@@ -40,27 +40,29 @@ export function VideoNavbar() {
     }, []);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            if (!isHydrated || user || isLoggedIn || logoutInProgress) {
-                console.log("Fetching user from Zustand...")
-                console.log("User: ", user)
-                console.log("Logged In: ", isLoggedIn)
-                console.log("Is Hydrated: ", isHydrated)
-                if (user) {
-                    setIsLoggedIn(true)
-                }
-                return
-            };
+        if (!isHydrated || logoutInProgress) {
+            console.log("Fetching user from Zustand...")
+            console.log("User: ", user)
+            console.log("Logged In: ", isLoggedIn)
+            console.log("Is Hydrated: ", isHydrated)
+            return
+        };
 
-            console.log("Fetching user from Supabase...")
-            console.log("Signed In: ", isLoggedIn)
-            console.log("Fetching user from Supabase...")
+        if (user) {
+            console.log("User already set from Zustand...")
+            setIsLoggedIn(true)
+            return
+        }
+        console.log("Fetching user from Supabase...")
+        console.log("Signed In: ", isLoggedIn)
+        const fetchUser = async () => {
             try {
                 const supabase = createClient()
                 const { data: session } = await supabase.auth.getSession()
                 if (!session.session) {
                     setUser(null);
                     setIsLoggedIn(false);
+                    console.log("User not signed in...")
                 } else {
                     const { data } = await supabase.auth.getUser()
                     const { data: profileData } = await supabase.from("profiles").select("*").eq("id", data.user?.id).single()
@@ -83,7 +85,8 @@ export function VideoNavbar() {
         }
 
         fetchUser()
-    }, [isHydrated, user, isLoggedIn, logoutInProgress]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isHydrated, logoutInProgress]);
 
     const handleSignOut = async () => {
         setLogoutInProgress(true); // Prevent fetchUser from running
