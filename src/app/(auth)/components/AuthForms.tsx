@@ -2,11 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useStore } from "@/store/store";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { checkPath, login, signup } from "../actions";
+import { useRouter } from "next/navigation";
 
 export function SignInForm() {
+    const router = useRouter();
+    const { setIsSignedIn, isSignedIn } = useStore(
+        useShallow((state) => ({
+            setIsSignedIn: state.setIsSignedIn,
+            isSignedIn: state.isSignedIn
+        }))
+    );
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -16,14 +26,22 @@ export function SignInForm() {
 
     const handleSignIn = async () => {
         await login(formData);
+        setIsSignedIn(true);
     };
 
     const handleGoogleSignIn = async () => {
         const formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
-        await signup();
+        setIsSignedIn(true);
     };
+
+    useEffect(() => {
+        if (isSignedIn) {
+            router.push("/");
+            router.refresh();
+        }
+    }, [isSignedIn, router]);
 
     return (
         <div className="sm:w-[35rem] w-full h-1/3 flex flex-col gap-4 mx-auto mt-24 bg-gray-800 p-6 rounded-lg shadow-md text-white">
@@ -80,9 +98,17 @@ export function SignInForm() {
 }
 
 export function SignUpForm() {
+    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const { setIsSignedIn, isSignedIn } = useStore(
+        useShallow((state) => ({
+            setIsSignedIn: state.setIsSignedIn,
+            isSignedIn: state.isSignedIn
+        }))
+    );
 
     const handleSignUp = async () => {
         if (password !== confirmPassword) {
@@ -93,14 +119,33 @@ export function SignUpForm() {
         const formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
+        formData.append("confirmPassword", confirmPassword);
+        formData.append("username", username);
 
-        await signup();
+        await signup(formData);
+        setIsSignedIn(true);
     };
+
+    useEffect(() => {
+        if (isSignedIn) {
+            router.push("/");
+            router.refresh();
+        }
+    }, [isSignedIn, router]);
 
     return (
         <div className="sm:w-[35rem] w-full h-1/3 flex flex-col gap-4 mx-auto mt-24 bg-gray-800 p-6 rounded-lg shadow-md text-white">
             <h1 className="text-2xl font-bold mb-4">Sign Up</h1>
             <form onSubmit={(e) => e.preventDefault()}>
+                <div className="mb-4">
+                    <Input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="w-full bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    />
+                </div>
                 <div className="mb-4">
                     <Input
                         type="email"

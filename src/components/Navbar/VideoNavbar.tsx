@@ -19,53 +19,117 @@ import {
 import { Input } from "@/components/ui/input";
 import { useStore } from "@/store/store";
 import { createClient } from "@/utils/supabase/client";
-import { Play, Search, SlidersHorizontal, User } from "lucide-react";
+import { Moon, Play, Search, SlidersHorizontal, Sun, User } from "lucide-react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 export function VideoNavbar() {
-    const router = useRouter()
-    const { user, setUser } = useStore(useShallow((state) => ({ user: state.user, setUser: state.setUser })))
+    const { setTheme } = useTheme();
+    const router = useRouter();
+    const { user, setUser, isSignedIn, setIsSignedIn } = useStore(
+        useShallow((state) => ({
+            user: state.user,
+            setUser: state.setUser,
+            isSignedIn: state.isSignedIn,
+            setIsSignedIn: state.setIsSignedIn
+        }))
+    );
     const [isHydrated, setIsHydrated] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(Boolean(user));
-    const [logoutInProgress, setLogoutInProgress] = useState(false);
 
+    // useEffect(() => {
+    //     const unsubHydrage = useStore.persist.onHydrate(() =>
+    //         setIsHydrated(true)
+    //     );
+    //     if (useStore.persist.hasHydrated()) setIsHydrated(true);
+    //     return () => unsubHydrage();
+    // }, []);
+
+    // useEffect(() => {
+    //     console.log("lol");
+    //     if (!isHydrated || logoutInProgress) {
+    //         if (isSignedIn) {
+    //             console.log("4");
+    //         } else {
+    //             return;
+    //         }
+    //     }
+    //     console.log("1");
+    //     if (user) {
+    //         setIsSignedIn(true);
+    //         return;
+    //     }
+
+    //     console.log("2");
+    //     if (isSignedIn === user) {
+    //         console.log("not signed in", isSignedIn);
+    //         return;
+    //     }
+    //     console.log("3");
+
+    //     console.log("Fetching user from Supabase...");
+    //     const fetchUser = async () => {
+    //         try {
+    //             const supabase = createClient();
+    //             const { data: session } = await supabase.auth.getSession();
+    //             // if (!session.session) {
+    //             //     setUser(null);
+    //             //     setIsSignedIn(false);
+    //             // } else {
+    //             const { data } = await supabase.auth.getUser();
+    //             const { data: profileData } = await supabase
+    //                 .from("profiles")
+    //                 .select("*")
+    //                 .eq("id", data.user?.id)
+    //                 .single();
+    //             console.log(profileData);
+    //             if (profileData) {
+    //                 const transformeduser = {
+    //                     id: profileData.id,
+    //                     createdAt: new Date(profileData.created_at),
+    //                     userName: profileData.user_name,
+    //                     email: profileData.email,
+    //                     imageUrl: profileData.image_url,
+    //                     isActive: profileData.is_active
+    //                 };
+    //                 console.log(transformeduser);
+    //                 setUser(transformeduser);
+    //                 // }
+    //             }
+    //         } catch (error) {
+    //             console.error("Error fetching user from Supabase: ", error);
+    //         }
+    //     };
+
+    //     fetchUser();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [isHydrated, logoutInProgress, isSignedIn]);
 
     useEffect(() => {
-        const unsubHydrage = useStore.persist.onHydrate(() => setIsHydrated(true))
+        const unsubHydrage = useStore.persist.onHydrate(() =>
+            setIsHydrated(true)
+        );
         if (useStore.persist.hasHydrated()) setIsHydrated(true);
         return () => unsubHydrage();
     }, []);
 
     useEffect(() => {
-        if (!isHydrated || logoutInProgress) {
-            console.log("Fetching user from Zustand...")
-            console.log("User: ", user)
-            console.log("Logged In: ", isLoggedIn)
-            console.log("Is Hydrated: ", isHydrated)
-            return
-        };
-
-        if (user) {
-            console.log("User already set from Zustand...")
-            setIsLoggedIn(true)
-            return
+        if (!isHydrated) return;
+        if (!isSignedIn) {
+            return;
         }
-        console.log("Fetching user from Supabase...")
-        console.log("Signed In: ", isLoggedIn)
-        const fetchUser = async () => {
-            try {
-                const supabase = createClient()
-                const { data: session } = await supabase.auth.getSession()
-                if (!session.session) {
-                    setUser(null);
-                    setIsLoggedIn(false);
-                    console.log("User not signed in...")
-                } else {
-                    const { data } = await supabase.auth.getUser()
-                    const { data: profileData } = await supabase.from("profiles").select("*").eq("id", data.user?.id).single()
+        if (!user && isSignedIn) {
+            const fetchUser = async () => {
+                try {
+                    const supabase = createClient();
+                    const { data } = await supabase.auth.getUser();
+                    const { data: profileData } = await supabase
+                        .from("profiles")
+                        .select("*")
+                        .eq("id", data.user?.id)
+                        .single();
                     if (profileData) {
                         const transformeduser = {
                             id: profileData.id,
@@ -74,32 +138,30 @@ export function VideoNavbar() {
                             email: profileData.email,
                             imageUrl: profileData.image_url,
                             isActive: profileData.is_active
-                        }
-                        setUser(transformeduser)
-                        setIsLoggedIn(true)
+                        };
+                        setUser(transformeduser);
                     }
+                } catch (error) {
+                    console.error("Error fetching user from Supabase: ", error);
                 }
-            } catch (error) {
-                console.error("Error fetching user from Supabase: ", error)
-            }
-        }
+            };
 
-        fetchUser()
+            fetchUser();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isHydrated, logoutInProgress]);
+    }, [isHydrated, isSignedIn, router]);
 
     const handleSignOut = async () => {
-        setLogoutInProgress(true); // Prevent fetchUser from running
         setUser(null);
-        setIsLoggedIn(false);
-        await useStore.persist.clearStorage();
+        setIsSignedIn(false);
+        useStore.persist.clearStorage();
+
         await signout();
-        setLogoutInProgress(false); // Reset after sign-out
         router.refresh();
     };
 
     return (
-        <div className="border-b w-full">
+        <div className="border-b bg-slate-950 text-white w-full">
             <div className="flex h-16 items-center px-4">
                 <Link
                     href="/"
@@ -177,8 +239,29 @@ export function VideoNavbar() {
                                 </Button>
                             </div>
                         </DialogContent>
-                    </Dialog>
-
+                    </Dialog>{" "}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="icon">
+                                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                                <span className="sr-only">Toggle theme</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setTheme("light")}>
+                                Light
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setTheme("dark")}>
+                                Dark
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() => setTheme("system")}
+                            >
+                                System
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon">
@@ -186,29 +269,50 @@ export function VideoNavbar() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            {
-                                isLoggedIn ? (
-                                    <>
-                                        <DropdownMenuItem>Profile</DropdownMenuItem>
-                                        <DropdownMenuItem>Settings</DropdownMenuItem>
-                                        <DropdownMenuItem>{JSON.stringify(user)}</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={handleSignOut} className="hover:cursor-pointer" asChild>
-                                            <span className="">
-                                                Sign out
-                                            </span>
-                                        </DropdownMenuItem>
-                                    </>
-                                ) : (
-                                    <>
-                                        <DropdownMenuItem className="hover:cursor-pointer" asChild>
-                                            <Link href="/sign-in">Sign In</Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem className="hover:cursor-pointer" asChild>
-                                            <Link href="/sign-up">Sign Up</Link>
-                                        </DropdownMenuItem>
-                                    </>
-                                )
-                            }
+                            {isSignedIn ? (
+                                <>
+                                    <DropdownMenuItem
+                                        asChild
+                                        className="hover:cursor-pointer"
+                                    >
+                                        <Link href="/upload">Upload Video</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        {isSignedIn
+                                            ? "Signed In"
+                                            : "Signed Out"}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        Settings
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        {JSON.stringify(user)}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={handleSignOut}
+                                        className="hover:cursor-pointer"
+                                        asChild
+                                    >
+                                        <span className="">Sign out</span>
+                                    </DropdownMenuItem>
+                                </>
+                            ) : (
+                                <>
+                                    <DropdownMenuItem
+                                        className="hover:cursor-pointer"
+                                        asChild
+                                    >
+                                        <Link href="/sign-in">Sign In</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        className="hover:cursor-pointer"
+                                        asChild
+                                    >
+                                        <Link href="/sign-up">Sign Up</Link>
+                                    </DropdownMenuItem>
+                                </>
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>

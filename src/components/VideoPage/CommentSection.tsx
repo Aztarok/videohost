@@ -1,7 +1,7 @@
 "use client";
 
-import { User } from 'lucide-react';
-import React, { useState } from 'react';
+import { User } from "lucide-react";
+import React, { useState } from "react";
 
 type Comment = {
     id: number;
@@ -14,18 +14,18 @@ const CommentSection = () => {
     const [comments, setComments] = useState<Comment[]>([
         {
             id: 1,
-            author: 'John Doe',
-            content: 'Great video! Very informative.',
-            timestamp: '2 hours ago'
+            author: "John Doe",
+            content: "Great video! Very informative.",
+            timestamp: "2 hours ago"
         },
         {
             id: 2,
-            author: 'Jane Smith',
-            content: 'Thanks for sharing this!',
-            timestamp: '1 hour ago'
+            author: "Jane Smith",
+            content: "Thanks for sharing this!",
+            timestamp: "1 hour ago"
         }
     ]);
-    const [newComment, setNewComment] = useState('');
+    const [newComment, setNewComment] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,13 +33,13 @@ const CommentSection = () => {
 
         const comment: Comment = {
             id: comments.length + 1,
-            author: 'Current User',
+            author: "Current User",
             content: newComment,
-            timestamp: 'Just now'
+            timestamp: "Just now"
         };
 
         setComments([comment, ...comments]);
-        setNewComment('');
+        setNewComment("");
     };
 
     return (
@@ -70,10 +70,16 @@ const CommentSection = () => {
                         </div>
                         <div>
                             <div className="flex items-center gap-2">
-                                <span className="font-semibold">{comment.author}</span>
-                                <span className="text-sm text-gray-500">{comment.timestamp}</span>
+                                <span className="font-semibold">
+                                    {comment.author}
+                                </span>
+                                <span className="text-sm text-gray-500">
+                                    {comment.timestamp}
+                                </span>
                             </div>
-                            <p className="mt-1 text-gray-700">{comment.content}</p>
+                            <p className="mt-1 text-gray-200">
+                                {comment.content}
+                            </p>
                         </div>
                     </div>
                 ))}

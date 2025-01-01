@@ -38,11 +38,17 @@
 
 ### Commit 1: Starting work on the video uploading and fetching. The first thing that is finished is the video page layout.
 
+## 12/31/24:
+
+### Commit 1: Added Tanstack Query, React Dropzone, more types and more zustand stores and another page for uploading and fixed auth pages. Made protected route to upload videos. Added drag and drop to upload files. Made uploading videos to Supabase possible. FINALLY finished the best version of auth fetching and storage I could think of. Future plans are to fetch videos from Supabase and react to them, add profile and following systems, let people download videos, add Google sign in.
+
 ## To-Do List:
-❌ Protect specific pages with auth logic\
 ❌ Create profile and settings pages\
-❌ Make uploading videos possible\
-❌ Send the videos to supabase and fetch them\
+❌ Make it possible to watch videos\
+❌ Fetch videos from Supabase\
+✅ Make uploading videos possible\
+✅ Send the videos to supabase\
+✅ Protect specific pages with auth logic\
 ✅ Create Supabase trigger function to detect when a user signs up\
 ✅ Create Supabase table for user data\
 ✅ Style the layout for the main page\

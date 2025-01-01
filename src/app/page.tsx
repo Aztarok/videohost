@@ -22,16 +22,8 @@ const videoArray: Video[] = videos;
 
 export default async function Home() {
     return (
-        <div className="h-full w-full font-[family-name:var(--font-geist-sans)]">
-            <div className="flex flex-col w-full">
-                <div className="w-full">
-                    {/* {!data.user && <Link href={"/sign-up"}>Sign Up</Link>}
-                    {!data.user && <Link href={"/sign-in"}>Sign In</Link>}
-                    {data.user && <SignOutButton />} */}
-                    {/* <Navbar signedIn={data.user?.email || ""} /> */}
-                </div>
-                <VideoShower videoArray={videoArray} />
-            </div>
-        </div>
+        <>
+            <VideoShower videoArray={videoArray} />
+        </>
     );
 }

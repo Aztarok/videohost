@@ -1,5 +1,6 @@
 import { updateSession } from "@/utils/supabase/middleware";
 import { NextResponse, type NextRequest } from "next/server";
+import { protectedPaths } from "./lib";
 
 export async function middleware(request: NextRequest) {
     const url = new URL(request.url);
@@ -9,9 +10,13 @@ export async function middleware(request: NextRequest) {
     requestHeaders.set("x-url", request.url);
     requestHeaders.set("x-origin", origin);
     requestHeaders.set("x-pathname", pathname);
-    return await updateSession(request).then(() =>
-        NextResponse.next({ request: { headers: requestHeaders } })
-    );
+    const response = await updateSession(request);
+
+    if (response === null && protectedPaths.includes(pathname)) {
+        return NextResponse.redirect(new URL("/", request.url));
+    }
+    NextResponse.next({ request: { headers: requestHeaders } });
+    return response;
 }
 
 export const config = {
