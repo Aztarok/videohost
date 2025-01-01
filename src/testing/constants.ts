@@ -1,4 +1,3 @@
-
 export const videos = [
     {
         id: 1,
@@ -7,7 +6,8 @@ export const videos = [
         thumbnailUrl: "/2.png",
         userId: "user789",
         uploadDate: new Date("2024-12-14T10:15:30.000Z"),
-        description: "Learn the secrets to cooking the perfect steak every time with this step-by-step guide!",
+        description:
+            "Learn the secrets to cooking the perfect steak every time with this step-by-step guide!",
         views: 10500,
         likes: 800,
         tags: ["cooking", "steak", "recipe", "food"],
@@ -15,16 +15,17 @@ export const videos = [
         duration: 600,
         comments: 120,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 2,
         title: "The Ultimate JavaScript Tutorial for Beginners for Beginners for bruh for Beginners for Beginners for Beginners",
         url: "https://example.com/videos/def456",
-        thumbnailUrl: "/3.png",
+        thumbnailUrl: "/2.png",
         userId: "user456",
         uploadDate: new Date("2024-12-12T08:45:00.000Z"),
-        description: "Master JavaScript with this comprehensive tutorial designed for beginners.",
+        description:
+            "Master JavaScript with this comprehensive tutorial designed for beginners.",
         views: 45000,
         likes: 3200,
         tags: ["programming", "javascript", "tutorial", "coding"],
@@ -32,7 +33,7 @@ export const videos = [
         duration: 521,
         comments: 250,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 3,
@@ -41,7 +42,8 @@ export const videos = [
         thumbnailUrl: "/1.png",
         userId: "user123",
         uploadDate: new Date("2024-12-10T07:30:15.000Z"),
-        description: "A quick yoga routine to help you relax and reduce stress in just 10 minutes.",
+        description:
+            "A quick yoga routine to help you relax and reduce stress in just 10 minutes.",
         views: 23000,
         likes: 1800,
         tags: ["yoga", "wellness", "stress relief", "fitness"],
@@ -49,7 +51,7 @@ export const videos = [
         duration: 600,
         comments: 90,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 4,
@@ -58,7 +60,8 @@ export const videos = [
         thumbnailUrl: "/5.png",
         userId: "user321",
         uploadDate: new Date("2024-12-09T18:00:00.000Z"),
-        description: "Join us on an adventure through the lesser-known but breathtaking locations in Iceland.",
+        description:
+            "Join us on an adventure through the lesser-known but breathtaking locations in Iceland.",
         views: 15000,
         likes: 1200,
         tags: ["travel", "iceland", "adventure", "nature"],
@@ -66,7 +69,7 @@ export const videos = [
         duration: 1800,
         comments: 75,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 5,
@@ -83,7 +86,7 @@ export const videos = [
         duration: 900,
         comments: 200,
         isPublic: false,
-        released: true,
+        released: true
     },
     {
         id: 6,
@@ -92,7 +95,8 @@ export const videos = [
         thumbnailUrl: "/2.png",
         userId: "user789",
         uploadDate: new Date("2024-12-14T10:15:30.000Z"),
-        description: "Learn the secrets to cooking the perfect steak every time with this step-by-step guide!",
+        description:
+            "Learn the secrets to cooking the perfect steak every time with this step-by-step guide!",
         views: 10500,
         likes: 800,
         tags: ["cooking", "steak", "recipe", "food"],
@@ -100,16 +104,17 @@ export const videos = [
         duration: 600,
         comments: 120,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 7,
         title: "The Ultimate JavaScript Tutorial for Beginners",
         url: "https://example.com/videos/def456",
-        thumbnailUrl: "/3.png",
+        thumbnailUrl: "/2.png",
         userId: "user456",
         uploadDate: new Date("2024-12-12T08:45:00.000Z"),
-        description: "Master JavaScript with this comprehensive tutorial designed for beginners.",
+        description:
+            "Master JavaScript with this comprehensive tutorial designed for beginners.",
         views: 45000,
         likes: 3200,
         tags: ["programming", "javascript", "tutorial", "coding"],
@@ -117,7 +122,7 @@ export const videos = [
         duration: 5400,
         comments: 250,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 8,
@@ -126,7 +131,8 @@ export const videos = [
         thumbnailUrl: "/1.png",
         userId: "user123",
         uploadDate: new Date("2024-12-10T07:30:15.000Z"),
-        description: "A quick yoga routine to help you relax and reduce stress in just 10 minutes.",
+        description:
+            "A quick yoga routine to help you relax and reduce stress in just 10 minutes.",
         views: 23000,
         likes: 1800,
         tags: ["yoga", "wellness", "stress relief", "fitness"],
@@ -134,7 +140,7 @@ export const videos = [
         duration: 6700,
         comments: 90,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 9,
@@ -143,7 +149,8 @@ export const videos = [
         thumbnailUrl: "/1.png",
         userId: "user321",
         uploadDate: new Date("2024-12-09T18:00:00.000Z"),
-        description: "Join us on an adventure through the lesser-known but breathtaking locations in Iceland.",
+        description:
+            "Join us on an adventure through the lesser-known but breathtaking locations in Iceland.",
         views: 15000,
         likes: 1200,
         tags: ["travel", "iceland", "adventure", "nature"],
@@ -151,7 +158,7 @@ export const videos = [
         duration: 1800,
         comments: 75,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 10,
@@ -168,7 +175,7 @@ export const videos = [
         duration: 900,
         comments: 200,
         isPublic: false,
-        released: true,
+        released: true
     },
     {
         id: 11,
@@ -177,7 +184,8 @@ export const videos = [
         thumbnailUrl: "/4.png",
         userId: "user789",
         uploadDate: new Date("2024-12-14T10:15:30.000Z"),
-        description: "Learn the secrets to cooking the perfect steak every time with this step-by-step guide!",
+        description:
+            "Learn the secrets to cooking the perfect steak every time with this step-by-step guide!",
         views: 10500,
         likes: 800,
         tags: ["cooking", "steak", "recipe", "food"],
@@ -185,7 +193,7 @@ export const videos = [
         duration: 600,
         comments: 120,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 12,
@@ -194,7 +202,8 @@ export const videos = [
         thumbnailUrl: "/5.png",
         userId: "user456",
         uploadDate: new Date("2024-12-12T08:45:00.000Z"),
-        description: "Master JavaScript with this comprehensive tutorial designed for beginners.",
+        description:
+            "Master JavaScript with this comprehensive tutorial designed for beginners.",
         views: 45000,
         likes: 3200,
         tags: ["programming", "javascript", "tutorial", "coding"],
@@ -202,7 +211,7 @@ export const videos = [
         duration: 521,
         comments: 250,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 13,
@@ -211,7 +220,8 @@ export const videos = [
         thumbnailUrl: "/1.png",
         userId: "user123",
         uploadDate: new Date("2024-12-10T07:30:15.000Z"),
-        description: "A quick yoga routine to help you relax and reduce stress in just 10 minutes.",
+        description:
+            "A quick yoga routine to help you relax and reduce stress in just 10 minutes.",
         views: 23000,
         likes: 1800,
         tags: ["yoga", "wellness", "stress relief", "fitness"],
@@ -219,7 +229,7 @@ export const videos = [
         duration: 600,
         comments: 90,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 14,
@@ -228,7 +238,8 @@ export const videos = [
         thumbnailUrl: "/1.png",
         userId: "user321",
         uploadDate: new Date("2024-12-09T18:00:00.000Z"),
-        description: "Join us on an adventure through the lesser-known but breathtaking locations in Iceland.",
+        description:
+            "Join us on an adventure through the lesser-known but breathtaking locations in Iceland.",
         views: 15000,
         likes: 1200,
         tags: ["travel", "iceland", "adventure", "nature"],
@@ -236,7 +247,7 @@ export const videos = [
         duration: 1800,
         comments: 75,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 15,
@@ -253,7 +264,7 @@ export const videos = [
         duration: 900,
         comments: 200,
         isPublic: false,
-        released: true,
+        released: true
     },
     {
         id: 16,
@@ -262,7 +273,8 @@ export const videos = [
         thumbnailUrl: "/4.png",
         userId: "user789",
         uploadDate: new Date("2024-12-14T10:15:30.000Z"),
-        description: "Learn the secrets to cooking the perfect steak every time with this step-by-step guide!",
+        description:
+            "Learn the secrets to cooking the perfect steak every time with this step-by-step guide!",
         views: 10500,
         likes: 800,
         tags: ["cooking", "steak", "recipe", "food"],
@@ -270,7 +282,7 @@ export const videos = [
         duration: 600,
         comments: 120,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 17,
@@ -279,7 +291,8 @@ export const videos = [
         thumbnailUrl: "/3.png",
         userId: "user456",
         uploadDate: new Date("2024-12-12T08:45:00.000Z"),
-        description: "Master JavaScript with this comprehensive tutorial designed for beginners.",
+        description:
+            "Master JavaScript with this comprehensive tutorial designed for beginners.",
         views: 45000,
         likes: 3200,
         tags: ["programming", "javascript", "tutorial", "coding"],
@@ -287,7 +300,7 @@ export const videos = [
         duration: 5400,
         comments: 250,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 18,
@@ -296,7 +309,8 @@ export const videos = [
         thumbnailUrl: "/1.png",
         userId: "user123",
         uploadDate: new Date("2024-12-10T07:30:15.000Z"),
-        description: "A quick yoga routine to help you relax and reduce stress in just 10 minutes.",
+        description:
+            "A quick yoga routine to help you relax and reduce stress in just 10 minutes.",
         views: 23000,
         likes: 1800,
         tags: ["yoga", "wellness", "stress relief", "fitness"],
@@ -304,7 +318,7 @@ export const videos = [
         duration: 6700,
         comments: 90,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 19,
@@ -313,7 +327,8 @@ export const videos = [
         thumbnailUrl: "/2.png",
         userId: "user321",
         uploadDate: new Date("2024-12-09T18:00:00.000Z"),
-        description: "Join us on an adventure through the lesser-known but breathtaking locations in Iceland.",
+        description:
+            "Join us on an adventure through the lesser-known but breathtaking locations in Iceland.",
         views: 15000,
         likes: 1200,
         tags: ["travel", "iceland", "adventure", "nature"],
@@ -321,7 +336,7 @@ export const videos = [
         duration: 1800,
         comments: 75,
         isPublic: true,
-        released: true,
+        released: true
     },
     {
         id: 20,
@@ -338,6 +353,6 @@ export const videos = [
         duration: 900,
         comments: 200,
         isPublic: false,
-        released: true,
-    },
+        released: true
+    }
 ];

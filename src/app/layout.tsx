@@ -2,6 +2,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { VideoNavbar } from "@/components/Navbar/VideoNavbar";
+import { TanstackProvider } from "@/components/providers/tanstack-provider";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -27,16 +29,21 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen min-w-screen`}
             >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="dark"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    {children}
-                </ThemeProvider>
+                <TanstackProvider>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        <div className="flex flex-col w-full font-[family-name:var(--font-geist-sans)]  h-screen">
+                            <VideoNavbar />
+                            {children}
+                        </div>
+                    </ThemeProvider>
+                </TanstackProvider>
             </body>
         </html>
     );

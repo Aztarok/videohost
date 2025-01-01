@@ -50,7 +50,11 @@ export default function ChangePages({
                 // Case 2: When currentPage is in the last few pages
                 range.push(1);
                 range.push(Infinity); // Ellipsis
-                for (let i = totalPages - (maxVisible - 2); i <= totalPages; i++) {
+                for (
+                    let i = totalPages - (maxVisible - 2);
+                    i <= totalPages;
+                    i++
+                ) {
                     range.push(i);
                 }
             } else {
@@ -59,7 +63,8 @@ export default function ChangePages({
                 range.push(Infinity); // Ellipsis
 
                 const middleRangeSize = maxVisible - 2; // Space for middle pages
-                const startPage = currentPage - Math.floor((middleRangeSize - 1) / 2);
+                const startPage =
+                    currentPage - Math.floor((middleRangeSize - 1) / 2);
                 const endPage = currentPage + Math.floor(middleRangeSize / 2);
 
                 for (let i = startPage; i <= endPage; i++) {
@@ -74,11 +79,8 @@ export default function ChangePages({
         setPageRange(range); // Update state with the computed range
     }, [currentPage, totalPages, maxVisible]);
 
-
-
-
     return (
-        (<div className="mb-4">
+        <div className="mb-4">
             <Pagination className="flex w-full justify-center">
                 <PaginationContent className="min-w-[545px] flex justify-between">
                     <PaginationItem>
@@ -94,7 +96,7 @@ export default function ChangePages({
                                     e.preventDefault();
                                 }
                             }}
-                        // aria-disabled={currentPage === 1}
+                            // aria-disabled={currentPage === 1}
                         />
                     </PaginationItem>
                     {pageRange.map((page, index) =>
@@ -108,9 +110,13 @@ export default function ChangePages({
                                     href={`/?page=${currentPage}`}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        setCurrentPage(page)
+                                        setCurrentPage(page);
                                     }}
-                                    className={currentPage === page ? "font-black border-2" : ""}
+                                    className={
+                                        currentPage === page
+                                            ? "font-black border-2"
+                                            : ""
+                                    }
                                 >
                                     {page}
                                 </PaginationLink>
@@ -136,6 +142,6 @@ export default function ChangePages({
                     </PaginationItem>
                 </PaginationContent>
             </Pagination>
-        </div>)
+        </div>
     );
 }
