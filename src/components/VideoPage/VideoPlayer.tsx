@@ -6,11 +6,11 @@ import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { Skeleton } from "../ui/skeleton";
 
-const VideoPlayer = ({ videoId }: { videoId: string }) => {
+const VideoPlayer = ({ videoId }: { videoId: number }) => {
     const videos = useStore(useShallow((state) => state.Videos));
 
     const currentClientVideoData = useMemo(
-        () => videos.find((video) => video.id === parseInt(videoId)),
+        () => videos.find((video) => video.id === videoId),
         [videos, videoId]
     );
 
@@ -21,12 +21,11 @@ const VideoPlayer = ({ videoId }: { videoId: string }) => {
             </div>
         );
     }
-
     return (
         <div className="w-full aspect-video bg-black rounded-lg shadow-lg relative">
             <Image
                 src={currentClientVideoData!.thumbnailUrl}
-                className="object-cover rounded-lg"
+                className="object-fill rounded-lg"
                 alt="Video Placeholder"
                 fill
             />

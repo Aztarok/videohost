@@ -3,7 +3,6 @@
 import { useStore } from "@/store/store";
 import { Video } from "@/types/video";
 import Link from "next/link";
-import { useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 import ChangePages from "./ChangePages";
 import { VideoFilters } from "./Navbar/VideoFilters";
@@ -32,19 +31,18 @@ export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
         }))
     );
 
-    useEffect(() => {
-        const paginatedVideos = videoArray.slice(
-            indexOfFirstItem,
-            indexOfLastItem
-        );
+    // useEffect(() => {
+    //     const paginatedVideos = videoArray.slice(
+    //         indexOfFirstItem,
+    //         indexOfLastItem
+    //     );
 
-        if (JSON.stringify(paginatedVideos) !== JSON.stringify(Videos)) {
-            setVideos(paginatedVideos);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [videoArray, Videos, setVideos, currentPage]);
+    //     if (JSON.stringify(paginatedVideos) !== JSON.stringify(Videos)) {
+    //         setVideos(paginatedVideos);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [videoArray, Videos, setVideos, currentPage]);
     // const currentVideo = store.Videos.find((video) => video.id === store.currentItem);
-
     return (
         <>
             <main className="container mx-auto">
@@ -64,7 +62,7 @@ export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
                                     thumbnail={video.thumbnailUrl}
                                     views={video.views}
                                     duration={video.duration}
-                                    artists={video.artists[0]}
+                                    artists={video.creators[0]}
                                 />
                             </Link>
                         ))
