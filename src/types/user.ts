@@ -1,8 +1,8 @@
 export type User = {
     id: string;
     createdAt: Date;
-    userName: string;
+    userName: string | null;
     email: string;
-    imageUrl: string;
+    imageUrl: string | null;
     isActive: boolean;
-}
+};

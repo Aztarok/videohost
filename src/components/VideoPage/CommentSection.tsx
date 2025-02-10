@@ -23,6 +23,36 @@ const CommentSection = () => {
             author: "Jane Smith",
             content: "Thanks for sharing this!",
             timestamp: "1 hour ago"
+        },
+        {
+            id: 3,
+            author: "Jane Smith",
+            content: "Thanks for sharing this!",
+            timestamp: "1 hour ago"
+        },
+        {
+            id: 4,
+            author: "Jane Smith",
+            content: "Thanks for sharing this!",
+            timestamp: "1 hour ago"
+        },
+        {
+            id: 5,
+            author: "Jane Smith",
+            content: "Thanks for sharing this!",
+            timestamp: "1 hour ago"
+        },
+        {
+            id: 6,
+            author: "Jane Smith",
+            content: "Thanks for sharing this!",
+            timestamp: "1 hour ago"
+        },
+        {
+            id: 7,
+            author: "Jane Smith",
+            content: "Thanks for sharing this!",
+            timestamp: "1 hour ago"
         }
     ]);
     const [newComment, setNewComment] = useState("");
@@ -62,7 +92,15 @@ const CommentSection = () => {
                 </button>
             </form>
 
-            <div className="space-y-4">
+            {/* Scrollable comment section */}
+            <div
+                className="space-y-4 overflow-y-auto"
+                style={{
+                    maxHeight: "350px",
+                    border: "1px solid #ccc",
+                    padding: "10px"
+                }}
+            >
                 {comments.map((comment) => (
                     <div key={comment.id} className="flex gap-3">
                         <div className="flex-shrink-0">
@@ -73,13 +111,11 @@ const CommentSection = () => {
                                 <span className="font-semibold">
                                     {comment.author}
                                 </span>
-                                <span className="text-sm text-gray-500">
+                                <span className="text-sm text-gray-300">
                                     {comment.timestamp}
                                 </span>
                             </div>
-                            <p className="mt-1 text-gray-200">
-                                {comment.content}
-                            </p>
+                            <p className="mt-1 text-white">{comment.content}</p>
                         </div>
                     </div>
                 ))}

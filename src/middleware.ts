@@ -11,12 +11,24 @@ export async function middleware(request: NextRequest) {
     requestHeaders.set("x-origin", origin);
     requestHeaders.set("x-pathname", pathname);
     const response = await updateSession(request);
+    requestHeaders.set("x-response", JSON.stringify("response"));
 
     if (response === null && protectedPaths.includes(pathname)) {
         return NextResponse.redirect(new URL("/", request.url));
     }
-    NextResponse.next({ request: { headers: requestHeaders } });
-    return response;
+    const nextResponse = NextResponse.next();
+    // NextResponse.next({ request: { headers: requestHeaders } });
+    nextResponse.headers.set("x-url", request.url);
+    nextResponse.headers.set("x-origin", origin);
+    nextResponse.headers.set("x-pathname", pathname);
+    nextResponse.headers.set("x-is-logged-in", response ? "true" : "false");
+    // nextResponse.headers.set(
+    //     "x-response",
+    //     JSON.stringify(
+    //         response?.headers.get("x-middleware-request-cookie") || "default"
+    //     )
+    // );
+    return nextResponse;
 }
 
 export const config = {

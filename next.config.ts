@@ -21,6 +21,12 @@ const nextConfig: NextConfig = {
                 hostname: "loremflickr.com",
                 port: "",
                 pathname: "/**"
+            },
+            {
+                protocol: "https",
+                hostname: "jdasbabgtrfgdnbtstdp.supabase.co",
+                port: "",
+                pathname: "/**"
             }
         ]
     }

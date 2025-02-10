@@ -1,6 +1,8 @@
+import FrontPage from "@/components/Fetching/FrontPage";
 import VideoShower from "@/components/VideoShower";
 import { videos } from "@/testing/constants";
 import { Video } from "@/types/video";
+import { createClient } from "@/utils/supabase/server";
 
 // Mock data for videos
 // const videos = Array(25)
@@ -21,9 +23,14 @@ import { Video } from "@/types/video";
 const videoArray: Video[] = videos;
 
 export default async function Home() {
+    const supabase = await createClient();
+    const { data: videosId, error: videoIdError } = await supabase
+        .from("videos")
+        .select("*");
     return (
         <>
             <VideoShower videoArray={videoArray} />
+            <FrontPage videos={videosId} />
         </>
     );
 }

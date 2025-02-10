@@ -8,7 +8,17 @@ type TanstackProviderProps = {
 };
 
 export const TanstackProvider = ({ children }: TanstackProviderProps) => {
-    const [queryClient] = useState(() => new QueryClient());
+    const [queryClient] = useState(
+        () =>
+            new QueryClient({
+                defaultOptions: {
+                    queries: {
+                        staleTime: 1000 * 60 * 60 * 24,
+                        refetchOnWindowFocus: false
+                    }
+                }
+            })
+    );
 
     return (
         <QueryClientProvider client={queryClient}>

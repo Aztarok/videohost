@@ -31,7 +31,7 @@ const UploadProgressCard = ({ file, id, uploadStatus }: Props) => {
                     progressValue = 100;
                     clearInterval(interval);
                 }
-            }, 50);
+            }, 500);
             return () => clearInterval(interval);
         }
         if (uploadStatus === "success") {

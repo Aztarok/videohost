@@ -13,13 +13,11 @@ export type PaginationState = {
 
 export type PaginationActions = {
     setCurrentPage: (page: number) => void;
+    setLastItem: (lastItem: number) => void;
+    setFirstItem: (firstItem: number) => void;
     calculateIndices: () => void;
+    setCurrentItem: (item: Video[]) => void; // Add setCurrentItem here
 };
-
-// export const usePaginationSlice = create<PaginationState>((set) => ({
-//     currentPage: 1,
-//     setCurrentPage: (page) => set({ currentPage: page }),
-// }));
 
 export type paginationSlice = PaginationState & PaginationActions;
 
@@ -40,12 +38,16 @@ export const createPaginationSlice: StateCreator<
     paginationSlice
 > = (set) => ({
     ...initialState,
+    setCurrentItem: (item: Video[]) =>
+        set((state) => {
+            state.currentItem = item; // This will set the currentItem
+        }),
     setCurrentPage: (page: number) =>
         set((state) => {
             state.currentPage = page;
             state.indexOfLastItem = page * state.itemsPerPage;
             state.indexOfFirstItem = state.indexOfLastItem - state.itemsPerPage;
-            state.currentItem = videos.slice(
+            state.currentItem = state.Videos.slice(
                 state.indexOfFirstItem,
                 state.indexOfLastItem
             );
@@ -54,5 +56,13 @@ export const createPaginationSlice: StateCreator<
         set((state) => {
             state.indexOfLastItem = state.currentPage * state.itemsPerPage;
             state.indexOfFirstItem = state.indexOfLastItem - state.itemsPerPage;
+        }),
+    setLastItem: (lastItem: number) =>
+        set((state) => {
+            state.indexOfLastItem = lastItem;
+        }),
+    setFirstItem: (firstItem: number) =>
+        set((state) => {
+            state.indexOfFirstItem = firstItem;
         })
 });

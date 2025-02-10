@@ -9,26 +9,53 @@ import { useDropzone } from "react-dropzone";
 import { MdFileUpload } from "react-icons/md";
 import { useShallow } from "zustand/react/shallow";
 import UploadProgressCard from "./UploadProgressCard";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const FileManager = () => {
-    const { files } = useStore(
+    const { files, appendFiles } = useStore(
         useShallow((state) => ({
-            files: state.files
+            files: state.files,
+            appendFiles: state.appendFiles
         }))
     );
 
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [thumbnail, setThumbnail] = useState<File | null>(null);
+
     const fileUploadMutation = useFileUploadMutation();
 
+    // function onDrop(acceptedFiles: File[]) {
+    //     if (files.length > 0) return;
+    //     fileUploadMutation.mutate(
+    //         acceptedFiles.map((file) => ({
+    //             file,
+    //             id: `${file.name}${file.size}`,
+    //             uploadStatus: "idle",
+    //             uploadProgress: 0
+    //         }))
+    //     );
+    // }
     function onDrop(acceptedFiles: File[]) {
         if (files.length > 0) return;
-        fileUploadMutation.mutate(
-            acceptedFiles.map((file) => ({
-                file,
-                id: `${file.name}${file.size}`,
-                uploadStatus: "idle",
-                uploadProgress: 0
-            }))
-        );
+        appendFiles(acceptedFiles);
+    }
+    const handleUpload = () => {
+        fileUploadMutation.mutate(files, {
+            onSuccess: () => {
+                // Reset states after successful upload
+                setTitle("");
+                setDescription("");
+                setThumbnail(null);
+                useStore.setState({ files: [] }); // Clear uploaded files
+                toast.success("Upload successful!");
+            }
+        });
+    };
+
+    function onDropRejected() {
+        toast.error("Only video files are allowed");
     }
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -36,11 +63,18 @@ const FileManager = () => {
         maxFiles: 1,
         maxSize: maxFileSize,
         accept: {
-            "image/*": [],
             "video/*": []
-        }
+        },
+        onDropRejected
     });
 
+    const handleThumbnailUpload = (event: any) => {
+        const file = event.target.files[0];
+        if (file) {
+            appendFiles([file]);
+            setThumbnail(file);
+        }
+    };
     const [autoAnimateRef] = useAutoAnimate();
 
     //File uploading to Supabase v1
@@ -86,14 +120,49 @@ const FileManager = () => {
                 className="mt-6 gap-4 flex flex-col w-full"
             >
                 {files.length > 0 ? (
-                    files.map((file) => (
-                        <UploadProgressCard {...file} key={file.id} />
-                    ))
+                    <>
+                        {files.map((file) => (
+                            <UploadProgressCard {...file} key={file.id} />
+                        ))}
+                        <input
+                            type="text"
+                            placeholder="Enter video title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            className="mt-4 px-4 py-2 rounded-lg w-3/4"
+                        />
+                        <textarea
+                            placeholder="Enter video description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="mt-2 px-4 py-2 rounded-lg w-3/4 min-h-32"
+                        />{" "}
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleThumbnailUpload}
+                            className="mt-2"
+                        />
+                        {thumbnail && (
+                            <p className="text-white">
+                                Thumbnail selected: {thumbnail.name}
+                            </p>
+                        )}
+                    </>
                 ) : (
                     <p className="text-white font-bold text-center">
                         No files uploaded yet.
                     </p>
                 )}
+                {files.length > 0 && (
+                    <button
+                        onClick={handleUpload}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                    >
+                        Upload Files
+                    </button>
+                )}
+
                 {/* <Button onClick={handleUpload}>Upload</Button> */}
             </div>
         </MaxWidthWrapper>
