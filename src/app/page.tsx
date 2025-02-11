@@ -27,6 +27,9 @@ export default async function Home() {
     const { data: videosId, error: videoIdError } = await supabase
         .from("videos")
         .select("*");
+    if (videoIdError) {
+        console.log(videoIdError);
+    }
     return (
         <>
             <VideoShower videoArray={videoArray} />

@@ -4,7 +4,6 @@ import Form from "@/components/EnhancedSearch/Form";
 import { VideoFilters } from "@/components/Navbar/VideoFilters";
 import { useFilterVideo } from "@/services/mutations";
 import { useVideoFetch } from "@/services/queries";
-import { headers } from "next/headers";
 import React, { useState } from "react";
 
 const TestingPage = () => {

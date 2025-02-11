@@ -4,7 +4,6 @@ import { signout } from "@/app/(auth)/actions";
 import { useStore } from "@/store/store";
 import { createClient } from "@/utils/supabase/client";
 import { Play } from "lucide-react";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,7 +11,6 @@ import { useShallow } from "zustand/react/shallow";
 import NavbarButtons from "./NavbarButton";
 
 export function VideoNavbar({ serverSignedIn }: { serverSignedIn: boolean }) {
-    const { setTheme } = useTheme();
     const router = useRouter();
     const { user, setUser, isSignedIn, setIsSignedIn } = useStore(
         useShallow((state) => ({

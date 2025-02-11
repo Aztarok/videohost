@@ -24,7 +24,7 @@ export const useVideoQuery = ({
     videoId,
     client
 }: {
-    videoId: number;
+    videoId: string;
     client: TypedSupabaseClient;
 }) => {
     const queryKey = ["video", videoId];

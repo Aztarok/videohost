@@ -1,20 +1,15 @@
-"use client";
+// "use client";
 
-import { useStore } from "@/store/store";
-import { Video } from "@/types/video";
-import { useShallow } from "zustand/react/shallow";
+// import { useStore } from "@/store/store";
+// import { Video } from "@/types/video";
+// import { useShallow } from "zustand/react/shallow";
 
-type Props = {
-    videos: Video[];
-};
+// export const updateVideos = async (videoArray: Video[]) => {
+//     const { setVideos } = useStore(
+//         useShallow((state) => ({
+//             setVideos: state.setVideos
+//         }))
+//     );
 
-export const updateVideos = async (videoArray: Video[]) => {
-    const { Videos, setVideos } = useStore(
-        useShallow((state) => ({
-            Videos: state.Videos,
-            setVideos: state.setVideos
-        }))
-    );
-
-    setVideos(videoArray);
-};
+//     setVideos(videoArray);
+// };

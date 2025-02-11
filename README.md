@@ -45,10 +45,12 @@
 ## 2/10/25:
 
 ### Commit 1: First commit in 2025! I made it possible to upload thumbnails and videos to Supabase.
+###
 
 ## To-Do List:
 ❌ Create profile and settings pages\
-❌ Make it possible to watch videos\
+✅ Made it possible to delete videos\
+✅ Made it possible to watch videos\
 ✅ Fetch videos from Supabase\
 ✅ Make uploading thumbnails possible\
 ✅ Make uploading videos possible\

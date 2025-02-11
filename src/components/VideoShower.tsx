@@ -9,40 +9,15 @@ import { VideoFilters } from "./Navbar/VideoFilters";
 import { VideoCard } from "./ui/video-card";
 
 export default function VideoShower({ videoArray }: { videoArray: Video[] }) {
-    const {
-        Videos,
-        setVideos,
-        currentPage,
-        setCurrentPage,
-        itemsPerPage,
-        currentItem,
-        indexOfLastItem,
-        indexOfFirstItem
-    } = useStore(
+    const { currentPage, setCurrentPage, itemsPerPage, currentItem } = useStore(
         useShallow((state) => ({
-            Videos: state.Videos,
-            setVideos: state.setVideos,
             currentPage: state.currentPage,
             setCurrentPage: state.setCurrentPage,
             itemsPerPage: state.itemsPerPage,
-            currentItem: state.currentItem,
-            indexOfLastItem: state.indexOfLastItem,
-            indexOfFirstItem: state.indexOfFirstItem
+            currentItem: state.currentItem
         }))
     );
 
-    // useEffect(() => {
-    //     const paginatedVideos = videoArray.slice(
-    //         indexOfFirstItem,
-    //         indexOfLastItem
-    //     );
-
-    //     if (JSON.stringify(paginatedVideos) !== JSON.stringify(Videos)) {
-    //         setVideos(paginatedVideos);
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [videoArray, Videos, setVideos, currentPage]);
-    // const currentVideo = store.Videos.find((video) => video.id === store.currentItem);
     return (
         <>
             <main className="container mx-auto">
