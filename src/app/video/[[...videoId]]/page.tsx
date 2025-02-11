@@ -1,36 +1,32 @@
 import CommentSection from "@/components/VideoPage/CommentSection";
+import DeleteButton from "@/components/VideoPage/DeleteButton";
 import LikeButtons from "@/components/VideoPage/InteractionButtons";
 import SimilarVideos from "@/components/VideoPage/SimilarVideos";
-import VideoPlayer from "@/components/VideoPage/VideoPlayer";
 import VideoPlayerServer from "@/components/VideoPage/VideoPlayerServer";
 import { useVideoQuery } from "@/services/queries";
 import { createClient } from "@/utils/supabase/server";
 import {
     dehydrate,
     HydrationBoundary,
-    QueryClient,
-    useQueryClient
+    QueryClient
 } from "@tanstack/react-query";
-import { headers } from "next/headers";
-import { use } from "react";
 
 export default async function VideoPage({
     params
 }: {
-    params: Promise<{ videoId: string | string[] | number }>;
+    params: Promise<{ videoId: string }>;
 }) {
     const resolvedParams = await params;
-    const id = Array.isArray(resolvedParams.videoId)
-        ? Number(resolvedParams.videoId[0]) // Take the first element of the array
-        : typeof resolvedParams.videoId === "string"
-        ? Number(resolvedParams.videoId) // Convert string to number
-        : resolvedParams.videoId; // Use as-is if already a number
+    const videoId = Array.isArray(resolvedParams.videoId)
+        ? resolvedParams.videoId[0]
+        : resolvedParams.videoId;
 
     const queryClient = new QueryClient();
     const supabase = await createClient();
-
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     await queryClient.prefetchQuery(
-        useVideoQuery({ videoId: id, client: supabase })
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useVideoQuery({ videoId: resolvedParams.videoId, client: supabase })
     );
 
     return (
@@ -40,8 +36,9 @@ export default async function VideoPage({
                     <div className="lg:col-span-2 space-y-4">
                         {/* <VideoPlayer videoId={id} /> */}
                         <HydrationBoundary state={dehydrate(queryClient)}>
-                            <VideoPlayerServer videoId={id} />
+                            <VideoPlayerServer videoId={videoId} />
                         </HydrationBoundary>
+                        <DeleteButton videoId={videoId} />
 
                         <div className="bg-slate-950 text-white p-6 rounded-lg shadow-sm">
                             <h1 className="text-2xl font-bold mb-4">

@@ -13,12 +13,12 @@ export const videoFetchById = async ({ id }: { id: number }) => {
 
 export const videoFetchByIdSupabase = async (
     client: TypedSupabaseClient,
-    videoId: number
+    videoId: string
 ) => {
     return client
         .from("videos")
         .select("*")
-        .eq("id", "b0f4eaf4-4b37-460e-b00a-a6ce7dbc1abb")
+        .eq("id", videoId)
         .throwOnError()
         .single();
 };

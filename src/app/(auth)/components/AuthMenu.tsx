@@ -3,24 +3,14 @@
 import { signout } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog";
-import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { useStore } from "@/store/store";
 import { createClient } from "@/utils/supabase/client";
-import { Moon, Play, Search, SlidersHorizontal, Sun, User } from "lucide-react";
-import { useTheme } from "next-themes";
+import { User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -84,6 +74,7 @@ export function AuthMenu() {
 
             fetchUser();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isHydrated, isSignedIn, user]);
 
     const handleSignOut = async () => {

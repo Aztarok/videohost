@@ -10,7 +10,7 @@ import { MdFileUpload } from "react-icons/md";
 import { useShallow } from "zustand/react/shallow";
 import UploadProgressCard from "./UploadProgressCard";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 const FileManager = () => {
     const { files, appendFiles } = useStore(
@@ -68,8 +68,8 @@ const FileManager = () => {
         onDropRejected
     });
 
-    const handleThumbnailUpload = (event: any) => {
-        const file = event.target.files[0];
+    const handleThumbnailUpload = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
         if (file) {
             appendFiles([file]);
             setThumbnail(file);

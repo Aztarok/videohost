@@ -55,58 +55,52 @@ export function useFileUploadMutation() {
         // Attempt 2
 
         mutationFn: async (files: ExtendedFile[]) => {
+            console.log("Mutation called!"); // Debugging log
+
             const supabase = createClient();
             const { data: userData, error } = await supabase.auth.getUser();
 
-            if (error) {
-                console.log(error);
-                return;
-            }
-            if (!userData) {
+            if (error || !userData) {
+                console.log("User data error:", error);
                 return;
             }
 
-            const videoFile = files[0]; // Only one video is allowed
+            const videoFile = files[0];
             const videoPath = `${userData.user.id}/${videoFile.id}`;
 
-            updateUploadStatus(videoFile.id, "uploading"); // Mark video as uploading
+            updateUploadStatus(videoFile.id, "uploading");
 
-            // Upload video file first
             const { data: videoData, error: videoError } =
                 await supabase.storage
                     .from("videos")
                     .upload(videoPath, videoFile.file);
 
             if (videoError) {
+                console.log("Video upload error:", videoError);
                 updateUploadStatus(videoFile.id, "error");
-                console.log(videoError);
-                throw new Error(`Upload failed for video ${videoFile.id}`);
+                return;
             }
 
-            const thumbnailFile = files[1]; // Assuming the second file is the thumbnail
+            const thumbnailFile = files[1];
             const thumbnailPath = `${userData.user.id}/${videoFile.id}-thumb`;
 
-            updateUploadStatus(thumbnailFile.id, "uploading"); // Mark thumbnail as uploading
+            updateUploadStatus(thumbnailFile.id, "uploading");
 
-            // Upload thumbnail file
-            const { data: thumbData, error: thumbError } =
-                await supabase.storage
-                    .from("videos")
-                    .upload(thumbnailPath, thumbnailFile.file);
+            const { error: thumbError } = await supabase.storage
+                .from("videos")
+                .upload(thumbnailPath, thumbnailFile.file);
 
             if (thumbError) {
+                console.log("Thumbnail upload error:", thumbError);
                 updateUploadStatus(thumbnailFile.id, "error");
-                console.log(thumbError);
-                throw new Error(
-                    `Upload failed for thumbnail ${thumbnailFile.id}`
-                );
+                return;
             }
 
-            // Generate video and thumbnail URLs
             const videoUrl = `${process.env.NEXT_PUBLIC_API_URL2}/${videoPath}`;
             const thumbnailUrl = `${process.env.NEXT_PUBLIC_API_URL2}/${thumbnailPath}`;
 
-            // Insert the video record into the database
+            // Prevent duplicate inserts
+            console.log("Inserting video data...");
             const { error: insertError } = await supabase
                 .from("videos")
                 .insert([
@@ -129,16 +123,16 @@ export function useFileUploadMutation() {
                 ]);
 
             if (insertError) {
-                console.log(insertError);
-                throw new Error("Failed to insert video data");
+                console.log("Insert error:", insertError);
+                return;
             }
 
-            // Mark both files as successfully uploaded
             updateUploadStatus(videoFile.id, "success");
             updateUploadStatus(thumbnailFile.id, "success");
 
             return videoData;
         },
+
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["files"] });
         }
